@@ -1,14 +1,17 @@
-import {ArgumentsHost, Catch, ExceptionFilter, HttpException, Inject} from "@nestjs/common";
+import {ArgumentsHost, Catch, HttpException, Inject} from "@nestjs/common";
+import { BaseExceptionFilter } from "@nestjs/core";
 import {SlackClient} from "../core/slack-client";
 import {SLACK_CLIENT} from "./error-reporter.token";
 
 @Catch()
-export class ErrorReporterFilter implements ExceptionFilter {
+export class ErrorReporterFilter extends BaseExceptionFilter {
 
     constructor(
         @Inject(SLACK_CLIENT)
         private readonly slackClient: SlackClient,
-    ) {}
+    ) {
+        super();
+    }
 
     async catch(exception: unknown, host: ArgumentsHost) {
         let stack: string | undefined;
@@ -20,6 +23,6 @@ export class ErrorReporterFilter implements ExceptionFilter {
             await this.slackClient.report(`Error occurred\n${stack}`);
         }
 
-        throw exception;
+        super.catch(exception, host);
     }
 }
