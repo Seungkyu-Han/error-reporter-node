@@ -1,5 +1,5 @@
 {
-  "name": "error-reporter",
+  "name": "@seungkyu/error-reporter",
   "version": "0.0.0",
   "description": "Send server errors to chat application",
   "main": "dist/index.js",
