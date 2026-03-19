@@ -1,3 +1,4 @@
+import {MessageBuilderOption} from "../types/message-builder.option";
 
 
 export class SlackClient {
@@ -11,23 +12,24 @@ export class SlackClient {
         this.serverName = serverName ?? 'unknown server';
     }
 
-    private buildMessage(message: string, req?: any, stack?: string) {
+    private buildMessage(messageBuilderOption: MessageBuilderOption) {
         return `
         🚨 Unhandled Exception
         server: ${this.serverName}
         
-        method: ${req?.method || ""}
-        path: ${req?.url || ""}
+        method: ${messageBuilderOption.method || ""}
+        path: ${messageBuilderOption.path || ""}
+        request ip: ${messageBuilderOption.ip || ""}
         
-        error: ${message}
+        error: ${messageBuilderOption.error || ""}
         
         stack:
-        ${stack}
+        ${messageBuilderOption.stack || ""}
         `;
     }
 
-    async report(message: string) {
-        const sendMessage = this.buildMessage(message);
+    async report(messageBuilderOption: MessageBuilderOption) {
+        const sendMessage = this.buildMessage(messageBuilderOption);
         await fetch(this.webhookUrl, {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
