@@ -56,7 +56,7 @@ When an error other than an HttpException occurs on the server, it is reported a
 | serverName | string | ❌        | unknown server | Identifier for the server            |
 
 ## Example
-![img.png](example.png)
+![img.png](https://raw.githubusercontent.com/Seungkyu-Han/error-reporter-node/refs/heads/develop/example.png)
 
 ## Contact
 
