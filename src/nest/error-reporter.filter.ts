@@ -26,6 +26,7 @@ export class ErrorReporterFilter extends BaseExceptionFilter {
             const method = request.method;
             const path = request.url;
             const ip = request.ip ?? 'unknown ip';
+            const body = request.body as unknown;
 
             stack = exception.stack;
 
@@ -34,6 +35,7 @@ export class ErrorReporterFilter extends BaseExceptionFilter {
                     method,
                     path,
                     ip,
+                    body,
                     error: exception.message,
                     stack,
                 })

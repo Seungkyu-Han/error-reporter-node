@@ -10,18 +10,30 @@ export class ErrorMessageFormatterHelper {
     }
 
     errorMessage(messageBuilderOption: MessageBuilderOption): string {
+        let bodyContent: string;
+
+        try {
+            bodyContent = messageBuilderOption.body
+                ? JSON.stringify(messageBuilderOption.body, null, 2)
+                : 'None';
+        } catch {
+            bodyContent = 'None (Serialization Failed)';
+        }
         return `
-        🚨 Unhandled Exception
-        server: ${this.serverName}
-        
-        method: ${messageBuilderOption.method || ''}
-        path: ${messageBuilderOption.path || ''}
-        request ip: ${messageBuilderOption.ip || ''}
-        
-        error: ${messageBuilderOption.error || ''}
-        
-        stack:
-        ${messageBuilderOption.stack || ''}
-        `;
+    🚨 Unhandled Exception
+    server: ${this.serverName}
+    
+    method: ${messageBuilderOption.method || ''}
+    path: ${messageBuilderOption.path || ''}
+    request ip: ${messageBuilderOption.ip || ''}
+    
+    body: 
+    ${bodyContent}
+    
+    error: ${messageBuilderOption.error || ''}
+    
+    stack:
+    ${messageBuilderOption.stack || ''}
+    `;
     }
 }
