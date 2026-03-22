@@ -1,9 +1,10 @@
 import { MessageBuilderOption } from '../types/message-builder.option';
 import { Injectable } from '@nestjs/common';
 import { ErrorMessageFormatterHelper } from './helper/error-message-formatter.helper';
+import { CoreClient } from './core-client';
 
 @Injectable()
-export class SlackClient {
+export class SlackClient extends CoreClient {
     private readonly webhookUrl: string;
     private readonly errorMessageFormatterHelper: ErrorMessageFormatterHelper;
 
@@ -14,6 +15,7 @@ export class SlackClient {
         webhookUrl: string;
         errorMessageFormatterHelper: ErrorMessageFormatterHelper;
     }) {
+        super();
         this.webhookUrl = webhookUrl;
         this.errorMessageFormatterHelper = errorMessageFormatterHelper;
     }

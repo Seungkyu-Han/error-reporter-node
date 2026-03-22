@@ -1,15 +1,11 @@
-import { ArgumentsHost, Catch, HttpException, Inject } from '@nestjs/common';
+import { ArgumentsHost, Catch, HttpException } from '@nestjs/common';
 import { BaseExceptionFilter } from '@nestjs/core';
-import { SlackClient } from '../core/slack-client';
-import { SLACK_CLIENT } from './error-reporter.token';
 import { Request } from 'express';
+import { CoreClient } from '../core/core-client';
 
 @Catch()
 export class ErrorReporterFilter extends BaseExceptionFilter {
-    constructor(
-        @Inject(SLACK_CLIENT)
-        private readonly slackClient: SlackClient,
-    ) {
+    constructor(private readonly client: CoreClient) {
         super();
     }
 
@@ -30,7 +26,7 @@ export class ErrorReporterFilter extends BaseExceptionFilter {
 
             stack = exception.stack;
 
-            this.slackClient
+            this.client
                 .report({
                     method,
                     path,
