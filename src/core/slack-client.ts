@@ -1,39 +1,30 @@
-import {MessageBuilderOption} from "../types/message-builder.option";
+import { MessageBuilderOption } from '../types/message-builder.option';
+import { Injectable } from '@nestjs/common';
+import { ErrorMessageFormatterHelper } from './helper/error-message-formatter.helper';
 
-
+@Injectable()
 export class SlackClient {
     private readonly webhookUrl: string;
-    private readonly serverName: string;
+    private readonly errorMessageFormatterHelper: ErrorMessageFormatterHelper;
 
     constructor({
-                    webhookUrl, serverName
-                }: { webhookUrl: string, serverName?: string }) {
-        this.webhookUrl = webhookUrl
-        this.serverName = serverName ?? 'unknown server';
-    }
-
-    private buildMessage(messageBuilderOption: MessageBuilderOption) {
-        return `
-        🚨 Unhandled Exception
-        server: ${this.serverName}
-        
-        method: ${messageBuilderOption.method || ""}
-        path: ${messageBuilderOption.path || ""}
-        request ip: ${messageBuilderOption.ip || ""}
-        
-        error: ${messageBuilderOption.error || ""}
-        
-        stack:
-        ${messageBuilderOption.stack || ""}
-        `;
+        webhookUrl,
+        errorMessageFormatterHelper,
+    }: {
+        webhookUrl: string;
+        errorMessageFormatterHelper: ErrorMessageFormatterHelper;
+    }) {
+        this.webhookUrl = webhookUrl;
+        this.errorMessageFormatterHelper = errorMessageFormatterHelper;
     }
 
     async report(messageBuilderOption: MessageBuilderOption) {
-        const sendMessage = this.buildMessage(messageBuilderOption);
+        const sendMessage: string =
+            this.errorMessageFormatterHelper.errorMessage(messageBuilderOption);
         await fetch(this.webhookUrl, {
             method: 'POST',
-            headers: { "Content-Type": "application/json" },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ text: sendMessage }),
-        })
+        });
     }
 }

@@ -1,11 +1,11 @@
-import {DynamicModule, Module, Provider} from "@nestjs/common";
-import {SlackClient} from "../core/slack-client";
-import {SLACK_CLIENT} from "./error-reporter.token";
-import {ErrorReporterFilter} from "./error-reporter.filter";
-import {APP_FILTER} from "@nestjs/core";
-import {ErrorReporterOptions} from "../types/error-reporter.option";
-import {ErrorReporterAsyncOptions} from "../types/error-reporter.async.option";
-
+import { DynamicModule, Module, Provider } from '@nestjs/common';
+import { SlackClient } from '../core/slack-client';
+import { SLACK_CLIENT } from './error-reporter.token';
+import { ErrorReporterFilter } from './error-reporter.filter';
+import { APP_FILTER } from '@nestjs/core';
+import { ErrorReporterOptions } from '../types/error-reporter.option';
+import { ErrorReporterAsyncOptions } from '../types/error-reporter.async.option';
+import { ErrorMessageFormatterHelper } from '../core/helper/error-message-formatter.helper';
 
 @Module({})
 export class ErrorReporterModule {
@@ -13,12 +13,19 @@ export class ErrorReporterModule {
         return {
             module: ErrorReporterModule,
             providers: [
+                ErrorMessageFormatterHelper,
                 {
+                    inject: [ErrorMessageFormatterHelper],
                     provide: SLACK_CLIENT,
-                    useValue: new SlackClient({
-                        webhookUrl: options.webhookUrl,
-                        serverName: options.serverName,
-                    }),
+                    useFactory: (
+                        errorMessageFormatterHelper: ErrorMessageFormatterHelper,
+                    ) => {
+                        return new SlackClient({
+                            webhookUrl: options.webhookUrl,
+                            errorMessageFormatterHelper:
+                                errorMessageFormatterHelper,
+                        });
+                    },
                 },
                 {
                     provide: APP_FILTER,
@@ -51,18 +58,24 @@ export class ErrorReporterModule {
             return [
                 {
                     provide: SLACK_CLIENT,
-                    useFactory: async (...args: any[]) => {
-                        const config = await options.useFactory!(...args);
+                    useFactory: async (
+                        errorMessageFormatterHelper: ErrorMessageFormatterHelper,
+                        ...args: any[]
+                    ) => {
+                        const config = await options.useFactory!(
+                            ...(args as unknown[]),
+                        );
                         return new SlackClient({
                             webhookUrl: config.webhookUrl,
-                            serverName: config.serverName,
+                            errorMessageFormatterHelper:
+                                errorMessageFormatterHelper,
                         });
                     },
-                    inject: options.inject || [],
+                    inject: [ErrorMessageFormatterHelper],
                 },
             ];
         }
 
-        throw new Error("Invalid async configuration");
+        throw new Error('Invalid async configuration');
     }
 }
