@@ -6,6 +6,7 @@ import { SlackErrorReporterAsyncOptions } from '../types/error-reporter.async.op
 import { ErrorMessageFormatterHelper } from '../core/helper/error-message-formatter.helper';
 import { CoreClient } from '../core/core-client';
 import { ErrorReporterOptions } from '../types/error-reporter.option';
+import { ERROR_REPORTER_OPTIONS } from './error-reporter.tokens';
 
 /**
  * Module for reporting unhandled exceptions to various messenger platforms (Slack, etc.).
@@ -104,32 +105,32 @@ export class ErrorReporterModule {
     private static createAsyncProviders(
         options: SlackErrorReporterAsyncOptions,
     ): Provider[] {
-        if (options.useFactory) {
-            return [
-                {
-                    provide: ErrorMessageFormatterHelper,
-                    useFactory: options.useFactory,
-                    inject: options.inject || [],
-                },
-                {
-                    provide: CoreClient,
-                    useFactory: async (
-                        errorMessageFormatterHelper: ErrorMessageFormatterHelper,
-                        ...args: any[]
-                    ) => {
-                        const config = await options.useFactory!(
-                            ...(args as unknown[]),
-                        );
-                        return this.createMessengerClient(
-                            config,
-                            errorMessageFormatterHelper,
-                        );
-                    },
-                    inject: [ErrorMessageFormatterHelper],
-                },
-            ];
+        if (!options.useFactory) {
+            throw new Error('Invalid async configuration');
         }
 
-        throw new Error('Invalid async configuration');
+        const optionsProvider: Provider = {
+            provide: ERROR_REPORTER_OPTIONS,
+            useFactory: options.useFactory,
+            inject: options.inject || [],
+        };
+
+        const helperProvider: Provider = {
+            provide: ErrorMessageFormatterHelper,
+            inject: [ERROR_REPORTER_OPTIONS],
+            useFactory: (config: ErrorReporterOptions) =>
+                new ErrorMessageFormatterHelper(config.serverName),
+        };
+
+        const clientProvider: Provider = {
+            provide: CoreClient,
+            inject: [ERROR_REPORTER_OPTIONS, ErrorMessageFormatterHelper],
+            useFactory: (
+                config: ErrorReporterOptions,
+                helper: ErrorMessageFormatterHelper,
+            ) => this.createMessengerClient(config, helper),
+        };
+
+        return [optionsProvider, helperProvider, clientProvider];
     }
 }
