@@ -21,10 +21,14 @@ export class SlackClient {
     async report(messageBuilderOption: MessageBuilderOption) {
         const sendMessage: string =
             this.errorMessageFormatterHelper.errorMessage(messageBuilderOption);
-        await fetch(this.webhookUrl, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ text: sendMessage }),
-        });
+        try {
+            await fetch(this.webhookUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ text: sendMessage }),
+            });
+        } catch (error) {
+            console.error('error reporter fail to send:', error);
+        }
     }
 }
