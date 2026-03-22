@@ -3,7 +3,7 @@
   "version": "0.0.5",
   "description": "Send server errors to chat application",
   "main": "dist/index.js",
-  "types" : "dist/index.d.ts",
+  "types": "dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -12,13 +12,21 @@
     }
   },
   "files": [
-    "dist"
+    "dist",
+    "README.md"
   ],
   "publishConfig": {
     "access": "public"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Seungkyu-Han/error-reporter-node.git"
+  },
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "prepublishOnly": "npm run lint && npm run build"
   },
   "keywords": [
     "slack",
@@ -28,10 +36,18 @@
   "author": "Seungkyu-Han",
   "license": "MIT",
   "devDependencies": {
-    "typescript": "^5.5.3"
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.1.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.5",
+    "globals": "^17.4.0",
+    "prettier": "^3.8.1",
+    "typescript": "^5.5.3",
+    "typescript-eslint": "^8.57.1"
   },
   "dependencies": {
     "@nestjs/common": "^11.1.17",
-    "@nestjs/core": "^11.1.17"
+    "@nestjs/core": "^11.1.17",
+    "@types/express": "^5.0.6"
   }
 }
