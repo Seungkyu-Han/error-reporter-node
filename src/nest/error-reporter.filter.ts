@@ -1,39 +1,41 @@
-import {ArgumentsHost, Catch, HttpException, Inject} from "@nestjs/common";
-import {BaseExceptionFilter} from "@nestjs/core";
-import {SlackClient} from "../core/slack-client";
-import {SLACK_CLIENT} from "./error-reporter.token";
+import { ArgumentsHost, Catch, HttpException } from '@nestjs/common';
+import { BaseExceptionFilter } from '@nestjs/core';
+import { Request } from 'express';
+import { CoreClient } from '../core/core-client';
 
 @Catch()
 export class ErrorReporterFilter extends BaseExceptionFilter {
-
-    constructor(
-        @Inject(SLACK_CLIENT)
-        private readonly slackClient: SlackClient,
-    ) {
+    constructor(private readonly client: CoreClient) {
         super();
     }
 
-    async catch(exception: unknown, host: ArgumentsHost) {
+    catch(exception: unknown, host: ArgumentsHost) {
         let stack: string | undefined;
 
-        if (!(exception instanceof HttpException) && (exception instanceof Error)) {
-
+        if (
+            !(exception instanceof HttpException) &&
+            exception instanceof Error
+        ) {
             const ctx = host.switchToHttp();
-            const request = ctx.getRequest();
+            const request = ctx.getRequest<Request>();
 
             const method = request.method;
             const path = request.url;
-            const ip = request.ip || request.headers['x-forwarded-for'];
+            const ip = request.ip ?? 'unknown ip';
+            const body = request.body as unknown;
 
             stack = exception.stack;
 
-            await this.slackClient.report({
-                method,
-                path,
-                ip,
-                error: exception.message,
-                stack,
-            });
+            this.client
+                .report({
+                    method,
+                    path,
+                    ip,
+                    body,
+                    error: exception.message,
+                    stack,
+                })
+                .catch(() => {});
         }
 
         super.catch(exception, host);

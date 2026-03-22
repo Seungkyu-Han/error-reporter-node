@@ -1,39 +1,36 @@
-import {MessageBuilderOption} from "../types/message-builder.option";
+import { MessageBuilderOption } from '../types/message-builder.option';
+import { Injectable } from '@nestjs/common';
+import { ErrorMessageFormatterHelper } from './helper/error-message-formatter.helper';
+import { CoreClient } from './core-client';
 
-
-export class SlackClient {
+@Injectable()
+export class SlackClient extends CoreClient {
     private readonly webhookUrl: string;
-    private readonly serverName: string;
+    private readonly errorMessageFormatterHelper: ErrorMessageFormatterHelper;
 
     constructor({
-                    webhookUrl, serverName
-                }: { webhookUrl: string, serverName?: string }) {
-        this.webhookUrl = webhookUrl
-        this.serverName = serverName ?? 'unknown server';
-    }
-
-    private buildMessage(messageBuilderOption: MessageBuilderOption) {
-        return `
-        🚨 Unhandled Exception
-        server: ${this.serverName}
-        
-        method: ${messageBuilderOption.method || ""}
-        path: ${messageBuilderOption.path || ""}
-        request ip: ${messageBuilderOption.ip || ""}
-        
-        error: ${messageBuilderOption.error || ""}
-        
-        stack:
-        ${messageBuilderOption.stack || ""}
-        `;
+        webhookUrl,
+        errorMessageFormatterHelper,
+    }: {
+        webhookUrl: string;
+        errorMessageFormatterHelper: ErrorMessageFormatterHelper;
+    }) {
+        super();
+        this.webhookUrl = webhookUrl;
+        this.errorMessageFormatterHelper = errorMessageFormatterHelper;
     }
 
     async report(messageBuilderOption: MessageBuilderOption) {
-        const sendMessage = this.buildMessage(messageBuilderOption);
-        await fetch(this.webhookUrl, {
-            method: 'POST',
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ text: sendMessage }),
-        })
+        const sendMessage: string =
+            this.errorMessageFormatterHelper.errorMessage(messageBuilderOption);
+        try {
+            await fetch(this.webhookUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ text: sendMessage }),
+            });
+        } catch (error) {
+            console.error('error reporter fail to send:', error);
+        }
     }
 }
