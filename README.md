@@ -17,8 +17,6 @@ npm install @seungkyu/error-reporter
 
 ## Usage
 
-### Slack
-
 #### Synchronous configuration
 
 ```ts
@@ -60,15 +58,21 @@ export class ReporterModule {
 
 #### Configuration
 
-| Option     | Type    | Required | Default        | Description                          |
-|------------|---------|----------|----------------|--------------------------------------|
-| type       | 'slack' | ✅        | -              | type to slack                        |
-| webhookUrl | string  | ✅        | -              | Slack webhook URL to send error logs |
-| serverName | string  | ❌        | unknown server | Identifier for the server            |
+| Option     | Type               | Required | Default        | Description                          |
+|------------|--------------------|----------|----------------|--------------------------------------|
+| type       | 'slack', 'discord' | ✅        | -              | type of messenger                    |
+| webhookUrl | string             | ✅        | -              | Slack webhook URL to send error logs |
+| serverName | string             | ❌        | unknown server | Identifier for the server            |
 
 ## Example
 
-![img.png](https://private-user-images.githubusercontent.com/98071131/567419149-a28d215c-2831-49e4-a4de-86ce61da0cb3.png?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NzQxOTE2MDIsIm5iZiI6MTc3NDE5MTMwMiwicGF0aCI6Ii85ODA3MTEzMS81Njc0MTkxNDktYTI4ZDIxNWMtMjgzMS00OWU0LWE0ZGUtODZjZTYxZGEwY2IzLnBuZz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNjAzMjIlMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjYwMzIyVDE0NTUwMlomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPTA5NDQ4M2M5ZGY0MTk2ZjdkY2UzYmE3NTg0MTU3ZTAzN2YxMDFmNzNlNmI1OGUzNWFkNTEwNjk4MmU4ZWQyZDUmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0In0.suVKa4kjvgaW-ouqtwgC6Zui3yXMH3VIMRg4O_HMwcQ)
+### slack
+
+![slack-example.png](https://private-user-images.githubusercontent.com/98071131/567419149-a28d215c-2831-49e4-a4de-86ce61da0cb3.png?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NzQxOTE2MDIsIm5iZiI6MTc3NDE5MTMwMiwicGF0aCI6Ii85ODA3MTEzMS81Njc0MTkxNDktYTI4ZDIxNWMtMjgzMS00OWU0LWE0ZGUtODZjZTYxZGEwY2IzLnBuZz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNjAzMjIlMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjYwMzIyVDE0NTUwMlomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPTA5NDQ4M2M5ZGY0MTk2ZjdkY2UzYmE3NTg0MTU3ZTAzN2YxMDFmNzNlNmI1OGUzNWFkNTEwNjk4MmU4ZWQyZDUmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0In0.suVKa4kjvgaW-ouqtwgC6Zui3yXMH3VIMRg4O_HMwcQ)
+
+### discord
+
+![discord-example.png](https://private-user-images.githubusercontent.com/98071131/567680091-97c548d5-d9d1-4d69-9fd9-572ac677adca.png?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NzQyNjQzNzYsIm5iZiI6MTc3NDI2NDA3NiwicGF0aCI6Ii85ODA3MTEzMS81Njc2ODAwOTEtOTdjNTQ4ZDUtZDlkMS00ZDY5LTlmZDktNTcyYWM2NzdhZGNhLnBuZz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNjAzMjMlMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjYwMzIzVDExMDc1NlomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPWM2YzM2YTQ4MWQwMTZmYTY1ZThkM2MzZWFkMzRhMjlkNTk3OGY0NGIyNTcwY2U4ZTc3NDE2NGE5YjYwMDFjNTImWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0In0.sPHNunK7Djcjx_4E87FIHhAd7D7lcs1HkjEJJO2DkM4)
 
 ## Contact
 
