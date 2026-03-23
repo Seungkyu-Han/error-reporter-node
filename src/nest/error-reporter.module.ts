@@ -7,6 +7,7 @@ import { ErrorMessageFormatterHelper } from '../core/helper/error-message-format
 import { CoreClient } from '../core/core-client';
 import { ErrorReporterOptions } from '../types/error-reporter.option';
 import { ERROR_REPORTER_OPTIONS } from './error-reporter.tokens';
+import { DiscordClient } from '../core/discord-client';
 
 /**
  * Module for reporting unhandled exceptions to various messenger platforms (Slack, etc.).
@@ -17,10 +18,15 @@ export class ErrorReporterModule {
     private static createMessengerClient(
         options: ErrorReporterOptions,
         errorMessageFormatterHelper: ErrorMessageFormatterHelper,
-    ): SlackClient {
+    ): CoreClient {
         switch (options.type) {
             case 'slack':
                 return new SlackClient({
+                    webhookUrl: options.webhookUrl,
+                    errorMessageFormatterHelper: errorMessageFormatterHelper,
+                });
+            case 'discord':
+                return new DiscordClient({
                     webhookUrl: options.webhookUrl,
                     errorMessageFormatterHelper: errorMessageFormatterHelper,
                 });
