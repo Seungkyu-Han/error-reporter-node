@@ -41,7 +41,7 @@ export type DiscordErrorReporterOptions = {
     type: 'discord';
 
     /**
-     * The Incoming Webhook URL generated from your Slack App.
+     * The Incoming Webhook URL generated from your Discord channel.
      * @example 'https://discord.com/api/webhooks/124125125~'
      * @see https://discord.com/api/webhooks
      */
