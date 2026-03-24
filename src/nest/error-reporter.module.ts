@@ -8,6 +8,7 @@ import { CoreClient } from '../core/core-client';
 import { ErrorReporterOptions } from '../types/error-reporter.option';
 import { ERROR_REPORTER_OPTIONS } from './error-reporter.tokens';
 import { DiscordClient } from '../core/discord-client';
+import { GoogleChatClient } from '../core/google-chat-client';
 
 /**
  * Module for reporting unhandled exceptions to various messenger platforms (Slack, etc.).
@@ -27,6 +28,11 @@ export class ErrorReporterModule {
                 });
             case 'discord':
                 return new DiscordClient({
+                    webhookUrl: options.webhookUrl,
+                    errorMessageFormatterHelper: errorMessageFormatterHelper,
+                });
+            case 'google-chat':
+                return new GoogleChatClient({
                     webhookUrl: options.webhookUrl,
                     errorMessageFormatterHelper: errorMessageFormatterHelper,
                 });
