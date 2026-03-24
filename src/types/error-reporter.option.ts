@@ -4,7 +4,8 @@
  */
 export type ErrorReporterOptions =
     | SlackErrorReporterOptions
-    | DiscordErrorReporterOptions;
+    | DiscordErrorReporterOptions
+    | GoogleChatErrorReporterOptions;
 
 /**
  * Configuration options for sending error reports to Slack.
@@ -50,6 +51,31 @@ export type DiscordErrorReporterOptions = {
     /**
      * The name of the server where the error occurred.
      * This will be displayed as `[SERVER_NAME]` at the top of the Discord message.
+     * @default 'unknown server'
+     * @example 'production-api'
+     */
+    serverName?: string;
+};
+
+/**
+ * Configuration options for sending error reports to Google Chat.
+ */
+export type GoogleChatErrorReporterOptions = {
+    /**
+     * The type of the reporting platform.
+     */
+    type: 'google-chat';
+
+    /**
+     * The Incoming Webhook URL generated from your GoogleChat App.
+     * @example 'https://chat.googleapis.com/v1/spaces/**'
+     * @see https://chat.googleapis.com/v1/spaces/**
+     */
+    webhookUrl: string;
+
+    /**
+     * The name of the server where the error occurred.
+     * This will be displayed as `[SERVER_NAME]` at the top of the Google Chat message.
      * @default 'unknown server'
      * @example 'production-api'
      */
