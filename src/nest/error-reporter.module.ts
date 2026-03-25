@@ -9,6 +9,7 @@ import { ErrorReporterOptions } from '../types/error-reporter.option';
 import { ERROR_REPORTER_OPTIONS } from './error-reporter.tokens';
 import { DiscordClient } from '../core/discord-client';
 import { GoogleChatClient } from '../core/google-chat-client';
+import { GithubClient } from '../core/github-client';
 
 /**
  * Module for reporting unhandled exceptions to various messenger platforms (Slack, etc.).
@@ -34,6 +35,13 @@ export class ErrorReporterModule {
             case 'google-chat':
                 return new GoogleChatClient({
                     webhookUrl: options.webhookUrl,
+                    errorMessageFormatterHelper: errorMessageFormatterHelper,
+                });
+            case 'github':
+                return new GithubClient({
+                    githubToken: options.githubToken,
+                    repository: options.repository,
+                    owner: options.owner,
                     errorMessageFormatterHelper: errorMessageFormatterHelper,
                 });
             default:
