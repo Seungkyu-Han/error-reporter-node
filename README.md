@@ -58,11 +58,28 @@ export class ReporterModule {
 
 #### Configuration
 
+##### slack, discord, google-chat
+
 | Option     | Type                              | Required | Default        | Description                          |
 |------------|-----------------------------------|----------|----------------|--------------------------------------|
 | type       | 'slack', 'discord', 'google-chat' | ✅        | -              | type of messenger                    |
 | webhookUrl | string                            | ✅        | -              | Slack webhook URL to send error logs |
 | serverName | string                            | ❌        | unknown server | Identifier for the server            |
+
+##### github
+| Option     | Type     | Required | Default        | Description                                  |
+|------------|----------|----------|----------------|----------------------------------------------|
+| type       | 'github' | ✅        | -              | type of messenger                            |
+| webhookUrl | string   | ✅        | -              | Slack webhook URL to send error logs         |
+| owner      | string   | ✅        | -              | Repository owner (user or organization)      |
+| repository | string   | ✅        | -              | Repository name where issues will be created |
+| serverName | string   | ❌        | unknown server | Identifier for the server                    |
+
+❗Warning
+
+If an invalid or unauthorized token is provided, the application will fail to start.
+
+The server will also fail to start if any of the required GitHub configuration values are missing or incorrect, including:
 
 ## Example
 
@@ -77,6 +94,10 @@ export class ReporterModule {
 ### google-chat
 
 ![google-chat-example.png](https://raw.githubusercontent.com/Seungkyu-Han/Seungkyu-Han/refs/heads/main/google_example.png)
+
+### github
+
+![github-example.png](https://raw.githubusercontent.com/Seungkyu-Han/Seungkyu-Han/refs/heads/main/github_issue_example.png)
 
 ## Contact
 
