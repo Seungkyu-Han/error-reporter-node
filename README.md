@@ -58,11 +58,11 @@ export class ReporterModule {
 
 #### Configuration
 
-| Option     | Type               | Required | Default        | Description                          |
-|------------|--------------------|----------|----------------|--------------------------------------|
-| type       | 'slack', 'discord' | ✅        | -              | type of messenger                    |
-| webhookUrl | string             | ✅        | -              | Slack webhook URL to send error logs |
-| serverName | string             | ❌        | unknown server | Identifier for the server            |
+| Option     | Type                              | Required | Default        | Description                          |
+|------------|-----------------------------------|----------|----------------|--------------------------------------|
+| type       | 'slack', 'discord', 'google-chat' | ✅        | -              | type of messenger                    |
+| webhookUrl | string                            | ✅        | -              | Slack webhook URL to send error logs |
+| serverName | string                            | ❌        | unknown server | Identifier for the server            |
 
 ## Example
 
@@ -73,6 +73,10 @@ export class ReporterModule {
 ### discord
 
 ![discord-example.png](https://raw.githubusercontent.com/Seungkyu-Han/Seungkyu-Han/refs/heads/main/discord_example.png)
+
+### google-chat
+
+![google-chat-example.png](https://raw.githubusercontent.com/Seungkyu-Han/Seungkyu-Han/refs/heads/main/google_example.png)
 
 ## Contact
 
