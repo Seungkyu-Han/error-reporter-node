@@ -5,7 +5,8 @@
 export type ErrorReporterOptions =
     | SlackErrorReporterOptions
     | DiscordErrorReporterOptions
-    | GoogleChatErrorReporterOptions;
+    | GoogleChatErrorReporterOptions
+    | GithubErrorReporterOptions;
 
 /**
  * Configuration options for sending error reports to Slack.
@@ -76,6 +77,46 @@ export type GoogleChatErrorReporterOptions = {
     /**
      * The name of the server where the error occurred.
      * This will be displayed as `[SERVER_NAME]` at the top of the Google Chat message.
+     * @default 'unknown server'
+     * @example 'production-api'
+     */
+    serverName?: string;
+};
+
+/**
+ * Configuration options for sending error reports to the GitHub issue
+ */
+export type GithubErrorReporterOptions = {
+    /**
+     * The type of the reporting platform.
+     */
+    type: 'github';
+
+    /**
+     * A string representing the GitHub personal access token.
+     * This token is used to authenticate API requests to GitHub.
+     * Ensure the token is kept confidential and secure, as it provides access to your GitHub account or repository data.
+     */
+    githubToken: string;
+
+    /**
+     * The owner of the repository.
+     * This can be a GitHub username or an organization name.
+     *
+     * @example "Seungkyu-Han"
+     */
+    owner: string;
+
+    /**
+     * The name of the repository where issues will be created.
+     *
+     * @example "error-reporter-node"
+     */
+    repository: string;
+
+    /**
+     * The name of the server where the error occurred.
+     * This will be displayed as `[SERVER_NAME]` at the top of the GitHub issue.
      * @default 'unknown server'
      * @example 'production-api'
      */
