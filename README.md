@@ -67,19 +67,21 @@ export class ReporterModule {
 | serverName | string                            | ❌        | unknown server | Identifier for the server            |
 
 ##### github
-| Option     | Type     | Required | Default        | Description                                  |
-|------------|----------|----------|----------------|----------------------------------------------|
-| type       | 'github' | ✅        | -              | type of messenger                            |
-| webhookUrl | string   | ✅        | -              | Slack webhook URL to send error logs         |
-| owner      | string   | ✅        | -              | Repository owner (user or organization)      |
-| repository | string   | ✅        | -              | Repository name where issues will be created |
-| serverName | string   | ❌        | unknown server | Identifier for the server                    |
+
+| Option      | Type     | Required | Default        | Description                                  |
+|-------------|----------|----------|----------------|----------------------------------------------|
+| type        | 'github' | ✅        | -              | type of messenger                            |
+| githubToken | string   | ✅        | -              | GitHub personal access token                 |
+| owner       | string   | ✅        | -              | Repository owner (user or organization)      |
+| repository  | string   | ✅        | -              | Repository name where issues will be created |
+| serverName  | string   | ❌        | unknown server | Identifier for the server                    |
 
 ❗Warning
 
 If an invalid or unauthorized token is provided, the application will fail to start.
 
-The server will also fail to start if any of the required GitHub configuration values are missing or incorrect, including:
+The server will also fail to start if any of the required GitHub configuration values are missing or incorrect,
+including:
 
 ## Example
 
