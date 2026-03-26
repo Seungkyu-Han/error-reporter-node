@@ -25,7 +25,7 @@ const config: Config = {
         },
     },
 
-    coverageReporters: ['text', 'lcov', 'html'],
+    coverageReporters: ['text', 'text-summary'],
 
     transform: {
         '^.+\\.ts$': 'ts-jest',
