@@ -1,4 +1,4 @@
-name: Publish to npm
+name: Publish to npm and Codecov
 
 on:
   push:
@@ -19,13 +19,23 @@ jobs:
           node-version: 20
           registry-url: https://registry.npmjs.org/
 
-      - name: install npm
-        run: npm install
+      - name: install dependencies
+        run: npm ci
+
+      - name: run tests and generate coverage
+        run: npm run test:cov
+
+      - name: upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: true
 
       - name: build npm
         run: npm run build
 
       - name: publish npm
+        if: startsWith(github.ref, 'refs/tags/v')
         run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
