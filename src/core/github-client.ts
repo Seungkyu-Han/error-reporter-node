@@ -97,8 +97,7 @@ export class GithubClient extends CoreClient implements OnModuleInit {
                 return;
             }
         } catch (error) {
-            if (error instanceof Error)
-                console.error(`ErrorReporter: ${error}`);
+            if (error instanceof Error) throw error;
         }
     }
 }
