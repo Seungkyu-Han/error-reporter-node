@@ -39,16 +39,16 @@
   "license": "MIT",
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@types/jest": "^30.0.0",
     "eslint": "^10.1.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.5",
     "globals": "^17.4.0",
-    "prettier": "^3.8.1",
-    "typescript": "^5.5.3",
-    "typescript-eslint": "^8.57.1",
-    "@types/jest": "^30.0.0",
     "jest": "^30.3.0",
-    "ts-jest": "^29.4.6"
+    "prettier": "^3.8.1",
+    "ts-jest": "^29.4.6",
+    "typescript": "^5.5.3",
+    "typescript-eslint": "^8.57.1"
   },
   "dependencies": {
     "@nestjs/common": "^11.1.17",

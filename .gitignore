@@ -13,3 +13,6 @@ yarn-error.log*
 .idea/**
 
 dist/**
+
+coverage/
+*.lcov

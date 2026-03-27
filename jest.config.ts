@@ -25,7 +25,7 @@ const config: Config = {
         },
     },
 
-    coverageReporters: ['text', 'text-summary'],
+    coverageReporters: ["text", "lcov"],
     coveragePathIgnorePatterns: [
         "index.ts"
     ],
