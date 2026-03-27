@@ -26,6 +26,9 @@ const config: Config = {
     },
 
     coverageReporters: ['text', 'text-summary'],
+    coveragePathIgnorePatterns: [
+        "index.ts"
+    ],
 
     transform: {
         '^.+\\.ts$': 'ts-jest',
