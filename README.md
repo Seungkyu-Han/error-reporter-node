@@ -2,6 +2,7 @@
 
 [![NPM version](https://img.shields.io/npm/v/@seungkyu/error-reporter.svg?label=npm%20(stable))](https://npmjs.org/package/@seungkyu/error-reporter)
 ![npm bundle size](https://img.shields.io/bundlephobia/minzip/@seungkyu/error-reporter)
+[![codecov](https://codecov.io/github/Seungkyu-Han/error-reporter-node/graph/badge.svg?token=1ISSJAYYMF)](https://codecov.io/github/Seungkyu-Han/error-reporter-node)
 ![npm downloads](https://img.shields.io/npm/dm/@seungkyu/error-reporter)
 ![license](https://img.shields.io/npm/l/@seungkyu/error-reporter)
 
